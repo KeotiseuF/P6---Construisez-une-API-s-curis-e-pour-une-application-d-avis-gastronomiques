@@ -5,6 +5,7 @@ dotenv.config();
 
 const MY_PORT = process.env.PORT;
 
+// Renvoie un port valide, qu'il soit fourni sous la forme d'un numéro ou d'une chaîne.
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -19,6 +20,7 @@ const normalizePort = val => {
 const port = normalizePort(process.env.PORT || MY_PORT);
 app.set('port', port);
 
+// Recherche les différentes erreurs, les gère de manière appropriée et ensuite les enregistre dans le serveur.
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -42,6 +44,8 @@ const errorHandler = error => {
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
+
+// Un écouteur d'évènements, consignant le port ou le canal nommé sur lequel le serveur s'exécute dans la console.
 server.on('listening', () => {
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
