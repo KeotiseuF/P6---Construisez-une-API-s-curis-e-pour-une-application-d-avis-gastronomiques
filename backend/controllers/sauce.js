@@ -27,7 +27,7 @@ exports.modifySauce = (req, res, next) =>
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
-    
+    console.log(sauceObject)
     delete sauceObject._userId;
     Sauce.findOne({_id: req.params.id})
         .then((sauce) => {
@@ -101,8 +101,9 @@ exports.getAllSauces = (req, res, next) =>
 // Permet d'aimer une sauce.
 exports.likeSauce = (req, res, next) =>
 {
+    
     if(req.body.like === 1)
-    {                     
+    {     console.log(req.params.id)                
         delete req.body._userId;
         Sauce.findOne({_id: req.params.id})
         .then(() => {            
@@ -151,7 +152,7 @@ exports.likeSauce = (req, res, next) =>
             {
                 const dislike = 
                 { 
-                    $unset: {usersDisliked: req.params.id},
+                    $pull: {usersDisliked: req.auth.userId},
                     $inc: {dislikes: -1},
                 };
                 Sauce.updateOne({ _id: req.params.id}, dislike)
@@ -163,7 +164,7 @@ exports.likeSauce = (req, res, next) =>
             {
                 const like = 
                 { 
-                    $unset: {usersLiked: req.params.id},
+                    $pull: {usersLiked: req.auth.userId},
                     $inc: {likes: -1},
                 };
                 Sauce.updateOne({ _id: req.params.id}, like)

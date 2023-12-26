@@ -1,6 +1,6 @@
-const http = require('http');
+const http = require('http'); // Importe le package HTTP natif de Node.
 const app = require('./app');
-const dotenv = require("dotenv");
+const dotenv = require("dotenv"); // Importe les variables d'environnement.
 dotenv.config();
 
 const MY_PORT = process.env.PORT;

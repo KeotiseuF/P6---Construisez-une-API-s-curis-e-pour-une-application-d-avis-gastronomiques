@@ -9,7 +9,7 @@ const MY_APP_SECRET = process.env.APP_SECRET; // Variable d'environnement qui co
 // Permet à un utilisateur de s'inscrire.
 exports.signup = (req, res, next) => 
 {
-    bcrypt.hash(req.body.password, 10)
+    bcrypt.hash(req.body.password, 10) // Demande de « saler » le mot de passe 10 fois.
     .then(hash => 
     {
         const user = new User
@@ -24,7 +24,7 @@ exports.signup = (req, res, next) =>
     .catch(error => res.status(500).json({error}));
 };
 
-// Permet à un utilisateur de se connecter .
+// Permet à un utilisateur de se connecter.
 exports.login = (req, res, next) => 
 {
    User.findOne({email: req.body.email})
